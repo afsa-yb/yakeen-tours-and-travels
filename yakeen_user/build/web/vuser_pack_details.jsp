@@ -1,0 +1,87 @@
+<%@include file="vheader.jsp" %>
+    
+ <!-- packages -->
+      <div class="packages">
+         <div class="container">
+             <div>
+                 <%
+                    int pack_id=Integer.parseInt(request.getParameter("pack_id"));
+                    stmt1=conn.createStatement();
+                    rs1=stmt1.executeQuery("select * from packages_master where pack_id='"+pack_id+"'");
+                    while(rs1.next())
+                    {                            
+                %>
+            <div class="row">                
+               <div class="col-md-12">                  
+                  <div class="titlepage text_align_center ">
+                     <h2><%=rs1.getString(2)%></h2>
+                  </div>
+               </div>
+            </div>
+            <div class="row">                     
+                  <div class=" col-md-4">
+                  <div id="ho_img" class="packages_box" data-aos="fade-right" >                     
+                      <figure><img  style="width:600px;height:400px;" src="<%="http://localhost:8080/yakeen/pack_photo/"+rs1.getString(5)%>" alt="#"/></figure>
+                  </div>
+                  </div>
+                  <div class="col-md-8">
+                     <div class="tuscany">
+                        <div class="tusc text_align_left">
+                           <div class="italy">
+                              <h3><%=rs1.getString(2)%></h3>                              
+                           </div>                            
+                        </div>                                                   
+                        <p>Description: <%=rs1.getString(3)%></p>
+                        <div>
+                              <h4 style="margin:10px;">Price: <%=rs1.getString(4)%></h4>                              
+                        </div>
+                        <div>
+                              <h4 style="margin:10px;">Packages Type: <%=rs1.getString(8)%></h4>                              
+                        </div>
+                        <div>
+                              <h4 style="margin:10px;">Stay : <%=rs1.getString(6)%> and <%=rs1.getString(7)%></h4>                              
+                        </div>
+                        <div class="tusc">
+                            <a class="read_more" href="login.jsp">Book Now</a>
+                            
+                        </div>                        
+                     </div>
+                    </div>
+               </div>
+                <%
+                   }
+                %>   
+             </div>                                         
+            <hr>  
+                   <div class="row">
+                       <div class="col-md-12"><div class="italy"><h3>User Feedbacks</h3></div></div>
+                   </div><br> 
+                    <center>
+                    <%
+                        stmt1=conn.createStatement();
+                        rs1=stmt1.executeQuery("select * from feedback_master where pack_id='"+pack_id+"'");
+                        while(rs1.next())
+                        {
+                    %>
+                    <hr>
+                    <div class="row" style="font-size: 15px;text-transform: capitalize;">
+                        <div class="col-md-2">
+                            <b><%=rs1.getString(5)%></b>
+                        </div>
+                         <div class="col-md-6">
+                            <b><%=rs1.getString(2)%></b>
+                        </div>
+                         <div class="col-md-2">
+                            <b><%=rs1.getString(3)%></b>
+                        </div>
+                    </div>
+                        <hr>
+                    <%
+                        }
+                    %>    
+                    </center>
+            </div>
+         </div>
+      </div>
+
+<%@include file="footer.jsp" %>

@@ -1,0 +1,82 @@
+<%@include file="rheader.jsp" %>
+
+<script type="text/javascript">
+    function deletedata(vb_id)
+    {
+        if(confirm("Do you want to delete this record?"))
+        {
+            window.location.href="view_veh_book.jsp?vb_id="+vb_id;
+        }
+    }
+</script>
+<%
+    if(request.getParameter("vb_id")!=null)
+    {
+        int vb_id=Integer.parseInt(request.getParameter("vb_id"));
+        pstmt1=conn.prepareStatement("delete from veh_book_master where vb_id=?");
+        pstmt1.setInt(1, vb_id);
+        pstmt1.executeUpdate();
+    }
+%>    
+
+<div class="contact">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12 ">
+                  <div class="titlepage text_align_center">
+                      <h2>View Vehicles Booking</h2>
+                  </div>
+               </div>
+            <div class="co-md-12">
+                <table class="table table-bordered">
+                    <tr>                        
+                        <th>Vehicles Booking Date</th>
+                        <th>Vehicles Booking Day</th>
+                        <th>Pick Up Location</th>
+                        <th>Drop Up Location</th>
+                        <th>Pick Up Time</th>                          
+                        <th>Drop Up Time</th>
+                        <th>Total Distance</th>
+                        <th>Total Amount</th>                        
+                        <th>Vehicles Name</th>                                               
+                        <th>Cancel Booking</th>
+                    </tr>
+                    <%
+                        stmt1=conn.createStatement();
+                        rs1=stmt1.executeQuery("select * from veh_book_master where user_id='"+user_id+"'");
+                        while(rs1.next())
+                        {
+                            int vb_id1=rs1.getInt(1);
+                    %>
+                    <tr>                        
+                        <td><%=rs1.getString(2)%></td>                        
+                        <td><%=rs1.getString(3)%></td>
+                        <td><%=rs1.getString(4)%></td>
+                        <td><%=rs1.getString(5)%></td>
+                        <td><%=rs1.getString(6)%></td>
+                        <td><%=rs1.getString(7)%></td>
+                        <td><%=rs1.getString(8)%></td>
+                        <td><%=rs1.getString(9)%></td>                        
+                        <td><%
+                            int veh_id=rs1.getInt(10);
+                            pstmt1=conn.prepareStatement("select * from vehicles_master where veh_id=?");
+                            pstmt1.setInt(1,veh_id);
+                            rs2=pstmt1.executeQuery();
+                            
+                            while(rs2.next())
+                            {
+                                out.println(""+rs2.getString(2));
+                            }
+                            %>
+                        </td>                     
+                        <td><button onclick="deletedata(<%=vb_id1%>)" class="btn btn-danger">Cancel</button></td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                </table>                
+            </div>
+        </div>
+    </div>
+</div>
+<%@include file="footer.jsp" %>
